@@ -49,3 +49,29 @@ def colocar_zumbis(mapa):
             mapa[linha][coluna] == 'Z'
 
     return zumbis
+
+def mover_zumbi(mapa, pos_zumbi, pos_jogador):
+    z_linha, z_coluna = pos_zumbi
+    p_linha, p_coluna = pos_jogador
+
+    mapa[z_linha][z_coluna] = '.'
+
+    if z_linha > p_linha:
+        z_linha -= 1
+    elif z_linha < p_linha:
+        z_linha += 1
+
+    if z_coluna > p_coluna:
+        z_coluna -= 1
+    elif z_coluna < p_coluna:
+        z_coluna += 1
+
+    if (z_linha, z_coluna) == 'Z':
+        return None
+    
+    if (z_linha, z_coluna) == pos_jogador:
+        return None
+    
+    mapa[z_linha][z_coluna] == 'Z'
+
+    return (z_linha, z_coluna)
