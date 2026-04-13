@@ -15,3 +15,11 @@ def mostar_mapa(mapa):
         print()
     
     return mapa
+
+def colocar_jogador(mapa):
+    linha = len(mapa) // 2
+    coluna = len(mapa[0]) // 2
+
+    mapa[linha][coluna] = 'P'
+
+    return (linha, coluna)
