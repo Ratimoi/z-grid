@@ -1,6 +1,6 @@
 from mapa import criar_mapa, mostrar_mapa
 from jogador import colocar_jogador, mover_jogador
-from zumbi import colocar_zumbis, mover_zumbis
+from zumbi import colocar_zumbi, mover_zumbis
 from utils import getch, limpar_tela
 from ranking import mostrar_ranking, salvar_ranking
 
@@ -8,7 +8,10 @@ limpar_tela()
 
 mapa = criar_mapa()
 pos_jogador = colocar_jogador(mapa)
-zumbis = colocar_zumbis(mapa)
+
+zumbis = []
+novo_zumbi = colocar_zumbi(mapa)
+zumbis.append(novo_zumbi)
 
 nome = input("Digite seu nome: ")
 pontos = 0
@@ -21,10 +24,12 @@ while True:
     mostrar_mapa(mapa)
     print()
 
-    print("Use W/A/S/D para mover. Pressione Ctrl+C para sair.")
+    print("Use W/A/S/D para mover ou Q para sair.")
     comando = getch().lower()
 
-    if comando not in ['w', 'a', 's', 'd']:
+    if comando == 'q':
+        break
+    elif comando not in ['w', 'a', 's', 'd']:
         continue
 
     pos_jogador = mover_jogador(mapa, pos_jogador, comando)
@@ -43,6 +48,10 @@ while True:
         break
     else:
         pontos += 10
+
+        if pontos % 50 == 0:
+            novo_zumbi = colocar_zumbi(mapa)
+            zumbis.append(novo_zumbi)
 
 salvar_ranking(nome, pontos)
 mostrar_ranking()

@@ -1,11 +1,13 @@
-def colocar_zumbis(mapa):
-    zumbis = [(0,0), (7,8), (8,2)]
+import random
 
-    for linha, coluna in zumbis:
+def colocar_zumbi(mapa):
+    while True:
+        linha = random.randint(0, len(mapa) - 1)
+        coluna = random.randint(0, len(mapa[0]) - 1)
+
         if mapa[linha][coluna] == '.':
             mapa[linha][coluna] = 'Z'
-
-    return zumbis
+            return (linha, coluna)
 
 def mover_zumbi(mapa, pos_zumbi, pos_jogador):
     z_linha, z_coluna = pos_zumbi
