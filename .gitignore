@@ -1,0 +1,21 @@
+# Cache do Python
+__pycache__/
+*.pyc
+
+# Ambiente virtual
+venv/
+.env/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Configs de editor
+.vscode/
+.idea/
+
+# Arquivos temporários
+*.log
+
+# Dados
+data/ranking.txt
