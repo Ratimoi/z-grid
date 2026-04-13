@@ -75,3 +75,16 @@ def mover_zumbi(mapa, pos_zumbi, pos_jogador):
     mapa[z_linha][z_coluna] == 'Z'
 
     return (z_linha, z_coluna)
+
+def mover_zumbis(mapa, zumbis, pos_jogador):
+    novos_zumbis = []
+
+    for z_pos in zumbis:
+        nova_pos = mover_zumbi(mapa, z_pos, pos_jogador)
+
+        if nova_pos is None:
+            return None
+        
+        novos_zumbis.append(nova_pos)
+
+    return novos_zumbis
