@@ -1,0 +1,49 @@
+def colocar_zumbis(mapa):
+    zumbis = [(0,0), (7,8), (8,2)]
+
+    for linha, coluna in zumbis:
+        if mapa[linha][coluna] == '.':
+            mapa[linha][coluna] = 'Z'
+
+    return zumbis
+
+def mover_zumbi(mapa, pos_zumbi, pos_jogador):
+    z_linha, z_coluna = pos_zumbi
+    p_linha, p_coluna = pos_jogador
+
+    if z_linha > p_linha:
+        z_linha -= 1
+    elif z_linha < p_linha:
+        z_linha += 1
+
+    if z_coluna > p_coluna:
+        z_coluna -= 1
+    elif z_coluna < p_coluna:
+        z_coluna += 1
+
+    z_linha = max(0, min(z_linha, len(mapa) - 1))
+    z_coluna = max(0, min(z_coluna, len(mapa[0]) - 1))
+
+    if (z_linha, z_coluna) == pos_jogador:
+        return None
+
+    return (z_linha, z_coluna)
+
+def mover_zumbis(mapa, zumbis, pos_jogador):
+    for linha, coluna in zumbis:
+        mapa[linha][coluna] = '.'
+
+    novos_zumbis = []
+
+    for z_pos in zumbis:
+        nova_pos = mover_zumbi(mapa, z_pos, pos_jogador)
+
+        if nova_pos is None:
+            return None
+        if nova_pos not in novos_zumbis:
+            novos_zumbis.append(nova_pos)
+
+    for linha, coluna in novos_zumbis:
+        mapa[linha][coluna] = 'Z'
+
+    return novos_zumbis
