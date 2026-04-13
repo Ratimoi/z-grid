@@ -88,3 +88,22 @@ def mover_zumbis(mapa, zumbis, pos_jogador):
         novos_zumbis.append(nova_pos)
 
     return novos_zumbis
+
+def mostrar_ranking():
+    try:
+        with open("ranking.txt", "r") as f:
+            linhas = f.readlines()
+    except:
+        print("Ranking não encontrado.")
+        return
+    
+    ranking = []
+    for linha in linhas:
+        nome, pontos = linha.strip().split(":")
+        ranking.append((nome, int(pontos)))
+
+    ranking.sort(key=lambda x: x[1], reverse=True)
+
+    print("\n==== RANKING ====")
+    for nome, pontos in ranking:
+        print(f"{nome} - {pontos}")
