@@ -135,6 +135,8 @@ mapa = criar_mapa()
 pos_jogador = colocar_jogador(mapa)
 zumbis = colocar_zumbis(mapa)
 
+os.system('clear')
+
 nome = input("Digite seu nome: ")
 pontos = 0
 
@@ -167,3 +169,8 @@ while True:
         break
     else:
         pontos += 10
+
+with open("ranking.txt", "a") as f:
+    f.write(f"{nome}:{pontos}\n")
+
+mostrar_ranking()
