@@ -40,3 +40,12 @@ def colocar_jogador(mapa):
     mapa[linha][coluna] = 'P'
 
     return (linha, coluna)
+
+def colocar_zumbis(mapa):
+    zumbis = [(0,0), (7,8), (8,2)]
+
+    for linha, coluna in zumbis:
+        if mapa[linha][coluna] == '.':
+            mapa[linha][coluna] == 'Z'
+
+    return zumbis
