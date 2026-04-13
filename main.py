@@ -1,3 +1,5 @@
+import os
+
 def getch():
     import sys
     import termios
@@ -26,11 +28,16 @@ def mover_jogador(mapa, pos, comando):
             if coluna > 0:
                 coluna -= 1
         case 's':
-            if linha < len(mapa):
+            if linha < len(mapa) - 1:
                 linha += 1
         case 'd':
-            if coluna < len(mapa[0]):
+            if coluna < len(mapa[0]) - 1:
                 coluna += 1
+
+    mapa[linha][coluna] = 'P'
+
+    return (linha, coluna)
+
 def criar_mapa():
     mapa = []
 
@@ -41,13 +48,11 @@ def criar_mapa():
 
     return mapa
 
-def mostar_mapa(mapa):
+def mostrar_mapa(mapa):
     for linha in range(len(mapa)):
         for coluna in range(len(mapa[0])):
             print(mapa[linha][coluna], end=" ")
         print()
-    
-    return mapa
 
 def colocar_jogador(mapa):
     linha = len(mapa) // 2
@@ -62,15 +67,13 @@ def colocar_zumbis(mapa):
 
     for linha, coluna in zumbis:
         if mapa[linha][coluna] == '.':
-            mapa[linha][coluna] == 'Z'
+            mapa[linha][coluna] = 'Z'
 
     return zumbis
 
 def mover_zumbi(mapa, pos_zumbi, pos_jogador):
     z_linha, z_coluna = pos_zumbi
     p_linha, p_coluna = pos_jogador
-
-    mapa[z_linha][z_coluna] = '.'
 
     if z_linha > p_linha:
         z_linha -= 1
@@ -82,17 +85,18 @@ def mover_zumbi(mapa, pos_zumbi, pos_jogador):
     elif z_coluna < p_coluna:
         z_coluna += 1
 
-    if (z_linha, z_coluna) == 'Z':
-        return None
-    
+    z_linha = max(0, min(z_linha, len(mapa) - 1))
+    z_coluna = max(0, min(z_coluna, len(mapa[0]) - 1))
+
     if (z_linha, z_coluna) == pos_jogador:
         return None
-    
-    mapa[z_linha][z_coluna] == 'Z'
 
     return (z_linha, z_coluna)
 
 def mover_zumbis(mapa, zumbis, pos_jogador):
+    for linha, coluna in zumbis:
+        mapa[linha][coluna] = '.'
+
     novos_zumbis = []
 
     for z_pos in zumbis:
@@ -100,8 +104,11 @@ def mover_zumbis(mapa, zumbis, pos_jogador):
 
         if nova_pos is None:
             return None
-        
-        novos_zumbis.append(nova_pos)
+        if nova_pos not in novos_zumbis:
+            novos_zumbis.append(nova_pos)
+
+    for linha, coluna in novos_zumbis:
+        mapa[linha][coluna] = 'Z'
 
     return novos_zumbis
 
@@ -123,3 +130,40 @@ def mostrar_ranking():
     print("\n==== RANKING ====")
     for nome, pontos in ranking:
         print(f"{nome} - {pontos}")
+
+mapa = criar_mapa()
+pos_jogador = colocar_jogador(mapa)
+zumbis = colocar_zumbis(mapa)
+
+nome = input("Digite seu nome: ")
+pontos = 0
+
+while True:
+    os.system('clear')
+
+    print(f"Pontos: {pontos}\n")
+
+    mostrar_mapa(mapa)
+    print()
+
+    comando = getch().lower()
+
+    if comando not in ['w', 'a', 's', 'd']:
+        continue
+
+    pos_jogador = mover_jogador(mapa, pos_jogador, comando)
+
+    if pos_jogador in zumbis:
+        zumbis = None
+    else:
+        zumbis = mover_zumbis(mapa, zumbis, pos_jogador)
+
+    if zumbis is None:
+        os.system('clear')
+
+        mostrar_mapa(mapa)
+        print("GAME OVER")
+
+        break
+    else:
+        pontos += 10
