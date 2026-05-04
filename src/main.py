@@ -1,11 +1,13 @@
 import time
-
 from mapa import criar_mapa, mostrar_mapa
 from jogador import colocar_jogador, mover_jogador
 from zumbi import colocar_zumbi, mover_zumbis
 from utils import getch, limpar_tela
 from ranking import mostrar_ranking, salvar_ranking
 
+AZUL = "\033[94m"
+AMARELO = "\033[93m"
+RESET = "\033[0m"
 
 def calcular_dificuldade(pontos):
     if pontos >= 300:
@@ -50,7 +52,10 @@ while True:
     dificuldade = calcular_dificuldade(pontos)
     spawn_rate, max_zumbis, intervalo_zumbi = parametros_dificuldade(dificuldade)
 
-    print(f"Pontos: {pontos} | Zumbis: {len(zumbis)} | Dificuldade: {dificuldade}\n")
+    print(AZUL + "=" * 30 + RESET)
+    print(f"🏆 Pontos: {AMARELO}{pontos}{RESET}   🧟 Zumbis: {len(zumbis)}")
+    print(f"⚡ Dificuldade: {dificuldade}")
+    print(AZUL + "=" * 30 + RESET + "\n")
     mostrar_mapa(mapa)
     print()
     print("Use W/A/S/D para mover ou Q para sair.")
@@ -74,7 +79,7 @@ while True:
     if zumbis is None:
         limpar_tela()
         mostrar_mapa(mapa)
-        print("GAME OVER")
+        print("\033[91m💀 GAME OVER 💀\033[0m")
         break
 
     pontos += 10
