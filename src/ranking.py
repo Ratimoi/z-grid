@@ -1,6 +1,12 @@
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+CAMINHO = os.path.join(BASE_DIR, "data", "ranking.txt")
+
+
 def mostrar_ranking():
     try:
-        with open("data/ranking.txt", "r") as f:
+        with open(CAMINHO, "r") as f:
             linhas = f.readlines()
     except:
         print("Ranking não encontrado.")
@@ -17,6 +23,9 @@ def mostrar_ranking():
     for nome, pontos in ranking:
         print(f"{nome} - {pontos}")
 
+
 def salvar_ranking(nome, pontos):
-    with open("data/ranking.txt", "a") as f:
+    os.makedirs(os.path.dirname(CAMINHO), exist_ok=True)
+
+    with open(CAMINHO, "a") as f:
         f.write(f"{nome}:{pontos}\n")
