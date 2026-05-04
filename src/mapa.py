@@ -1,9 +1,9 @@
 def criar_mapa():
     mapa = []
 
-    for linha in range(10):
+    for linha in range(15):
         mapa.append([])
-        for coluna in range(10):
+        for coluna in range(15):
             mapa[linha].append(".")
 
     return mapa
