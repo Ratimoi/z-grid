@@ -10,16 +10,18 @@ mapa = criar_mapa()
 pos_jogador = colocar_jogador(mapa)
 
 zumbis = []
-novo_zumbi = colocar_zumbi(mapa)
-zumbis.append(novo_zumbi)
+zumbis.append(colocar_zumbi(mapa, pos_jogador))
 
 nome = input("Digite seu nome: ")
 pontos = 0
 
+dificuldade = 1
+ultimo_spawn = 0
+
 while True:
     limpar_tela()
 
-    print(f"Pontos: {pontos} | Zumbis: {len(zumbis)}\n")
+    print(f"Pontos: {pontos} | Zumbis: {len(zumbis)} | Dificuldade: {dificuldade}\n")
 
     mostrar_mapa(mapa)
     print()
@@ -41,17 +43,33 @@ while True:
 
     if zumbis is None:
         limpar_tela()
-
         mostrar_mapa(mapa)
         print("GAME OVER")
-
         break
-    else:
-        pontos += 10
 
-        if pontos % 50 == 0:
-            novo_zumbi = colocar_zumbi(mapa)
-            zumbis.append(novo_zumbi)
+    pontos += 10
+
+    if pontos >= 300:
+        dificuldade = 3
+    elif pontos >= 100:
+        dificuldade = 2
+    else:
+        dificuldade = 1
+
+    if dificuldade == 1:
+        spawn_rate = 50
+        max_zumbis = 3
+    elif dificuldade == 2:
+        spawn_rate = 30
+        max_zumbis = 6
+    else:
+        spawn_rate = 15
+        max_zumbis = 10
+
+    if pontos - ultimo_spawn >= spawn_rate and len(zumbis) < max_zumbis:
+        novo_zumbi = colocar_zumbi(mapa, pos_jogador)
+        zumbis.append(novo_zumbi)
+        ultimo_spawn = pontos
 
 salvar_ranking(nome, pontos)
 mostrar_ranking()

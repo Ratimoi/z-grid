@@ -1,6 +1,6 @@
 import random
 
-def colocar_zumbi(mapa):
+def colocar_zumbi(mapa, pos_jogador):
     while True:
         linha = random.randint(0, len(mapa) - 1)
         coluna = random.randint(0, len(mapa[0]) - 1)
