@@ -1,6 +1,6 @@
 import random
 
-def colocar_zumbi(mapa):
+def colocar_zumbi(mapa, pos_jogador):
     while True:
         linha = random.randint(0, len(mapa) - 1)
         coluna = random.randint(0, len(mapa[0]) - 1)
@@ -13,15 +13,16 @@ def mover_zumbi(mapa, pos_zumbi, pos_jogador):
     z_linha, z_coluna = pos_zumbi
     p_linha, p_coluna = pos_jogador
 
-    if z_linha > p_linha:
-        z_linha -= 1
-    elif z_linha < p_linha:
-        z_linha += 1
-
-    if z_coluna > p_coluna:
-        z_coluna -= 1
-    elif z_coluna < p_coluna:
-        z_coluna += 1
+    if random.random() < 0.5:
+        if z_linha > p_linha:
+            z_linha -= 1
+        elif z_linha < p_linha:
+            z_linha += 1
+    else:
+        if z_coluna > p_coluna:
+            z_coluna -= 1
+        elif z_coluna < p_coluna:
+            z_coluna += 1
 
     z_linha = max(0, min(z_linha, len(mapa) - 1))
     z_coluna = max(0, min(z_coluna, len(mapa[0]) - 1))
