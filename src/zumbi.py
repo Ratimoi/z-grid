@@ -31,21 +31,25 @@ def mover_zumbi(mapa, pos_zumbi, pos_jogador):
 
     return (z_linha, z_coluna)
 
-def mover_zumbis(mapa, zumbis, pos_jogador):
-    for linha, coluna in zumbis:
-        mapa[linha][coluna] = '.'
+def mover_zumbi(mapa, pos_zumbi, pos_jogador):
+    z_linha, z_coluna = pos_zumbi
+    p_linha, p_coluna = pos_jogador
 
-    novos_zumbis = []
+    delta_linha = p_linha - z_linha
+    delta_coluna = p_coluna - z_coluna
 
-    for z_pos in zumbis:
-        nova_pos = mover_zumbi(mapa, z_pos, pos_jogador)
+    if abs(delta_linha) > abs(delta_coluna):
+        if delta_linha > 0:
+            z_linha += 1
+        elif delta_linha < 0:
+            z_linha -= 1
+    else:
+        if delta_coluna > 0:
+            z_coluna += 1
+        elif delta_coluna < 0:
+            z_coluna -= 1
 
-        if nova_pos is None:
-            return None
-        if nova_pos not in novos_zumbis:
-            novos_zumbis.append(nova_pos)
+    if (z_linha, z_coluna) == pos_jogador:
+        return None
 
-    for linha, coluna in novos_zumbis:
-        mapa[linha][coluna] = 'Z'
-
-    return novos_zumbis
+    return (z_linha, z_coluna)
